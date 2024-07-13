@@ -4,6 +4,8 @@ import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 import { WinstonModule } from 'nest-winston';
 import { winstonLogger } from './logger/logger.service';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
 
 @Module({
   imports: [
@@ -14,7 +16,7 @@ import { winstonLogger } from './logger/logger.service';
       instance: winstonLogger,
     }),
   ],
-  // controllers: [AppController, AuthController],
-  // providers: [AppService, AuthService],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}

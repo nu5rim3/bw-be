@@ -404,3 +404,4 @@ dist
 .env
 .env.development
 .env.production
+.vercel

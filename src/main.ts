@@ -4,9 +4,13 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { HttpExceptionFilter } from './common/http-exception.filter';
 import { WinstonModule } from 'nest-winston';
 import { winstonLogger } from './logger/logger.service';
+import { ExpressAdapter } from '@nestjs/platform-express';
+import * as express from 'express';
+
+const server = express();
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule, {
+  const app = await NestFactory.create(AppModule, new ExpressAdapter(server), {
     logger: WinstonModule.createLogger({
       instance: winstonLogger,
     }),
@@ -23,6 +27,9 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
 
-  await app.listen(3000);
+  await app.init(); // Initialize the NestJS application
 }
+
 bootstrap();
+
+export default server;
